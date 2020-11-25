@@ -89,6 +89,23 @@ export default class NewRoutines extends Component {
       });
   };
 
+  //   -------------  Static Kinect Image Handler  ---------------------
+
+  handleKinectStaticImage = () => {
+    axios
+      .post(`http://127.0.0.1:8000/KinectStaticImage/`, {
+        option: "kinect image",
+        url: "",
+      })
+      .then((res) => {
+        //   this.setState({ testRes: res.data })
+        console.log(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   //   -------------  Static Image Handler  ---------------------
 
   handleStaticImage = () => {
@@ -99,7 +116,7 @@ export default class NewRoutines extends Component {
       .then((res) => {
         //   this.setState({ testRes: res.data })
         console.log(res.data);
-      })  
+      })
       .catch((error) => {
         console.log(error);
       });
@@ -149,7 +166,14 @@ export default class NewRoutines extends Component {
 
   render() {
     return (
-      <div>
+      <div
+        style={{
+          backgroundColor: "black",
+          color: "white",
+          padding: "1%",
+          opacity: ".7",
+        }}
+      >
         <h1> Routines Registration Page:</h1>
 
         <div className="row">
@@ -176,12 +200,11 @@ export default class NewRoutines extends Component {
               class="btn btn-primary"
               onClick={this.handleRecordedVideo}
             >
-              {" "}
               Select Recorded Video
             </button>
           </div>
         </div>
-        <hr />
+        <hr style={{ backgroundColor: "white" }} />
 
         {/* Live Video Module */}
 
@@ -212,9 +235,7 @@ export default class NewRoutines extends Component {
 
         {/* Live Video Module End*/}
 
-        <br />
-        <hr />
-        <br />
+        <hr style={{ backgroundColor: "white" }} />
 
         <h3> Input Static Image Mode:</h3>
 
@@ -226,6 +247,14 @@ export default class NewRoutines extends Component {
                 onClick={this.handleCameraStaticImage}
               >
                 Using Camera
+              </button>
+            </td>
+            <td>
+              <button
+                className="btn btn-primary"
+                onClick={this.handleKinectStaticImage}
+              >
+                Using Kinect
               </button>
             </td>
           </tr>
@@ -252,12 +281,52 @@ export default class NewRoutines extends Component {
         </table>
 
         <br />
-        <br />
+
         <div className="row">
           <div className="col-1"></div>
-          <div className="col-4">IMage url {this.state.testRes}</div>
+          <div
+            className="col-4"
+            style={{
+              backgroundColor: "#DEB887",
+              height: "280px",
+              opacity: ".8",
+              color: "black",
+            }}
+          >
+            <h4>Selected Images: </h4>
+
+            <table>
+              <tr>
+                <th>1.jpg</th>
+              </tr>
+            </table>
+          </div>
           <div className="col-1"></div>
-          <div className="col-5 ">dvfgr</div>
+          <div
+            className="col-5 "
+            style={{
+              backgroundColor: "#DEB887",
+              height: "280px",
+              opacity: ".8",
+              color: "black",
+            }}
+          >
+            <h4>Points: </h4>
+            <table className="table">
+              <tr>
+                <th>Image No</th>
+                <th>point x</th>
+                <th>point y</th>
+                <th>point z</th>
+              </tr>
+              <tr>
+                <td>1</td>
+                <td>2.58</td>
+                <td>3.33</td>
+                <td>0.24</td>
+              </tr>
+            </table>
+          </div>
           <div className="col-1"></div>
         </div>
 
@@ -266,10 +335,22 @@ export default class NewRoutines extends Component {
         <div className="row">
           <div className="col">
             <center>
-              <button className="btn btn-warning"> Retry </button>
-              <button className="btn btn-warning"> Back </button>
-              <button className="btn btn-warning"> Next </button>
-              <button className="btn btn-warning"> Save </button>
+              <table>
+                <tr>
+                  <td>
+                    <button className="btn btn-warning"> Retry </button>
+                  </td>
+                  <td>
+                    <button className="btn btn-warning"> Back </button>
+                  </td>
+                  <td>
+                    <button className="btn btn-warning"> Next </button>
+                  </td>
+                  <td>
+                    <button className="btn btn-warning"> Save </button>
+                  </td>
+                </tr>
+              </table>
             </center>
           </div>
         </div>
