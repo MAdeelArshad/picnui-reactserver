@@ -110,6 +110,9 @@ export default class NewRoutines extends Component {
 
   handleStaticImage = () => {
     console.log(this.state.options);
+    const options = { ...this.state.options };
+    options["option"] = "static image";
+    this.setState(options);
 
     axios
       .post(`http://127.0.0.1:8000/StaticImage/`, this.state.options)
@@ -159,7 +162,7 @@ export default class NewRoutines extends Component {
     console.log("/" + files[0]["name"]);
     const options = { ...this.state.options };
     options["url"] = "/" + files[0]["name"];
-    options["option"] = "";
+    options["option"] = "static image";
     this.setState({ options });
     console.log(this.state.options);
   }
@@ -191,7 +194,7 @@ export default class NewRoutines extends Component {
               type="file"
               class="file"
               onChange={(e) => this.onFileChange(e)}
-              accept=".mp4"
+              accept=""
             />
           </div>
           <div className="col-md-2">
@@ -274,7 +277,7 @@ export default class NewRoutines extends Component {
                 type="file"
                 class="file"
                 onChange={(e) => this.onImageFileChange(e)}
-                accept=".jpg|jpeg"
+                accept=""
               />
             </td>
           </tr>
