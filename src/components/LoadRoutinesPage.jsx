@@ -34,7 +34,8 @@ export default class LoadRoutines extends Component {
             margin: "2%",
             overflow: "scroll",
             height: "30%",
-            backgroundColor: "transparent",
+            backgroundColor: "black",
+            opacity: ".8",
           }}
         >
           {this.state.Routines.map((r) => (

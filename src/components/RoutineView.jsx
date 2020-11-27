@@ -2,10 +2,17 @@ import React, { Component } from "react";
 
 const RoutineView = (props) => {
   return (
-    <div>
+    <div
+      style={{
+        backgroundColor: "black",
+        opacity: ".8",
+        color: "white",
+        margin: "1%",
+      }}
+    >
       <h2>Pick and Place 1</h2>
 
-      <table class="table table-striped">
+      <table class="table table-striped" style={{ color: "white" }}>
         <thead>
           <tr>
             <th>Point x</th>

@@ -5,6 +5,8 @@ export default class NewRoutines extends Component {
   state = {
     testRes: "",
     options: { option: "", url: "" },
+    points: [],
+    image: "",
   };
 
   handleSubmit = () => {
@@ -82,7 +84,11 @@ export default class NewRoutines extends Component {
       })
       .then((res) => {
         //   this.setState({ testRes: res.data })
-        console.log(res.data);
+        console.log("response: ", res.data);
+        this.setState({
+          points: [...this.state.points, res.data.points],
+        });
+        console.log("State Test: ", this.state.points);
       })
       .catch((error) => {
         console.log(error);
@@ -110,15 +116,19 @@ export default class NewRoutines extends Component {
 
   handleStaticImage = () => {
     console.log(this.state.options);
-    const options = { ...this.state.options };
-    options["option"] = "static image";
-    this.setState(options);
 
     axios
       .post(`http://127.0.0.1:8000/StaticImage/`, this.state.options)
       .then((res) => {
         //   this.setState({ testRes: res.data })
-        console.log(res.data);
+        console.log("response: ", res.data);
+        this.setState({
+          points: [...this.state.points, res.data.points],
+        });
+        let s = { ...this.state };
+        s.image = s.options.url;
+        this.setState(s);
+        console.log("State Test: ", this.state.points);
       })
       .catch((error) => {
         console.log(error);
@@ -163,9 +173,26 @@ export default class NewRoutines extends Component {
     const options = { ...this.state.options };
     options["url"] = "/" + files[0]["name"];
     options["option"] = "static image";
+
     this.setState({ options });
     console.log(this.state.options);
   }
+
+  //   -------------  Save Btn  ---------------------
+
+  handleOnSave = () => {
+    console.log(this.state.points);
+
+    axios
+      .post(`http://127.0.0.1:8000/SaveRoutine/`, this.state.points)
+      .then((res) => {
+        //   this.setState({ testRes: res.data })
+        console.log(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   render() {
     return (
@@ -195,6 +222,7 @@ export default class NewRoutines extends Component {
               class="file"
               onChange={(e) => this.onFileChange(e)}
               accept=""
+              disabled
             />
           </div>
           <div className="col-md-2">
@@ -202,8 +230,9 @@ export default class NewRoutines extends Component {
               type="button"
               class="btn btn-primary"
               onClick={this.handleRecordedVideo}
+              disabled
             >
-              Select Recorded Video
+              Upload Recorded Video
             </button>
           </div>
         </div>
@@ -211,7 +240,7 @@ export default class NewRoutines extends Component {
 
         {/* Live Video Module */}
 
-        <h3> Input Live Video Mode:</h3>
+        <h3> Upload Live Video Mode:</h3>
 
         <table>
           <tr>
@@ -219,8 +248,8 @@ export default class NewRoutines extends Component {
               <button
                 class="btn btn-primary"
                 onClick={this.handleKinectLiveStream}
+                disabled
               >
-                {" "}
                 Using Kinect
               </button>
             </td>
@@ -228,8 +257,8 @@ export default class NewRoutines extends Component {
               <button
                 class="btn btn-primary"
                 onClick={this.handleCameraLiveStream}
+                disabled
               >
-                {" "}
                 Using Embeded Camera
               </button>
             </td>
@@ -240,7 +269,7 @@ export default class NewRoutines extends Component {
 
         <hr style={{ backgroundColor: "white" }} />
 
-        <h3> Input Static Image Mode:</h3>
+        <h3> Upload Static Image Mode:</h3>
 
         <table>
           <tr>
@@ -267,7 +296,7 @@ export default class NewRoutines extends Component {
                 className="btn btn-primary"
                 onClick={this.handleStaticImage}
               >
-                Select Image
+                Upload Image
               </button>
             </td>
             <td>
@@ -294,13 +323,14 @@ export default class NewRoutines extends Component {
               height: "280px",
               opacity: ".8",
               color: "black",
+              overflow: "scroll",
             }}
           >
             <h4>Selected Images: </h4>
 
             <table>
               <tr>
-                <th>1.jpg</th>
+                <th>{this.state.image}</th>
               </tr>
             </table>
           </div>
@@ -312,6 +342,7 @@ export default class NewRoutines extends Component {
               height: "280px",
               opacity: ".8",
               color: "black",
+              overflow: "scroll",
             }}
           >
             <h4>Points: </h4>
@@ -322,12 +353,14 @@ export default class NewRoutines extends Component {
                 <th>point y</th>
                 <th>point z</th>
               </tr>
-              <tr>
-                <td>1</td>
-                <td>2.58</td>
-                <td>3.33</td>
-                <td>0.24</td>
-              </tr>
+              {this.state.points.map((p) => (
+                <tr>
+                  <td>{p["image"]}</td>
+                  <td>{p["x"]}</td>
+                  <td>{p["y"]}</td>
+                  <td>{p["z"]}</td>
+                </tr>
+              ))}
             </table>
           </div>
           <div className="col-1"></div>
@@ -350,7 +383,13 @@ export default class NewRoutines extends Component {
                     <button className="btn btn-warning"> Next </button>
                   </td>
                   <td>
-                    <button className="btn btn-warning"> Save </button>
+                    <button
+                      className="btn btn-warning"
+                      onClick={this.handleOnSave}
+                    >
+                      {" "}
+                      Save{" "}
+                    </button>
                   </td>
                 </tr>
               </table>

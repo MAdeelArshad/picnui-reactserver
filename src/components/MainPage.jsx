@@ -93,12 +93,14 @@ class MainPage extends Component {
       <Router>
         <div
           class="container-fluid"
-          style={{
-            backgroundImage: `url("/Images/UR.jpg")`,
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "1200px 800px",
-          }}
+          style={
+            {
+              // backgroundImage: `url("/Images/UR.jpg")`,
+              // backgroundPosition: "center",
+              // backgroundRepeat: "no-repeat",
+              // backgroundSize: "1200px 800px",
+            }
+          }
         >
           <div class="row min-vh-100 flex-column flex-md-row">
             <aside class="col-12 col-md-2 p-0 bg-dark flex-shrink-1">
