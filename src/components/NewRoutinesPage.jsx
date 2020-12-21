@@ -4,10 +4,16 @@ import axios, { post } from "axios";
 export default class NewRoutines extends Component {
   state = {
     testRes: "",
+    RoutineName: "",
     options: { option: "", url: "" },
     points: [],
-    image: "",
+    UploadImageDisabled: true,
+    show_hide_Spinner: false,
   };
+
+  spinner_Style() {
+    return this.state.show_hide_Spinner ? "visable" : "none";
+  }
 
   handleSubmit = () => {
     // event.preventDefault();
@@ -116,7 +122,7 @@ export default class NewRoutines extends Component {
 
   handleStaticImage = () => {
     console.log(this.state.options);
-
+    this.setState({ show_hide_Spinner: true });
     axios
       .post(`http://127.0.0.1:8000/StaticImage/`, this.state.options)
       .then((res) => {
@@ -173,25 +179,45 @@ export default class NewRoutines extends Component {
     const options = { ...this.state.options };
     options["url"] = "/" + files[0]["name"];
     options["option"] = "static image";
-
     this.setState({ options });
-    console.log(this.state.options);
+
+    this.setState({ UploadImageDisabled: false });
+
+    console.log(this.state);
   }
+
+  handleNameInputOnChange = (event) => {
+    event.preventDefault();
+    // console.log(event.target.value);
+    this.setState({
+      [event.target.name]: event.target.value,
+    });
+  };
 
   //   -------------  Save Btn  ---------------------
 
   handleOnSave = () => {
-    console.log(this.state.points);
+    // console.log(this.state.points);
 
-    axios
-      .post(`http://127.0.0.1:8000/SaveRoutine/`, this.state.points)
-      .then((res) => {
-        //   this.setState({ testRes: res.data })
-        console.log(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    if (this.state.RoutineName !== "") {
+      let data = {
+        RoutineName: this.state.RoutineName,
+        Points: this.state.points,
+      };
+      axios
+        .post(`http://127.0.0.1:8000/SaveRoutine/`, data)
+        .then((res) => {
+          this.setState({ points: [], image: "" });
+
+          console.log(res.data);
+        })
+        .catch((error) => {
+          console.log(error + "\n Duplicate Routine is not Allowed!");
+          window.alert(error + "\n Duplicate Routine is not Allowed!");
+        });
+    } else {
+      window.alert("Routine Name is Empty!");
+    }
   };
 
   render() {
@@ -208,7 +234,12 @@ export default class NewRoutines extends Component {
 
         <div className="row">
           <div className="col">
-            Routine Name: <input type="Routine Name" />
+            Routine Name:{" "}
+            <input
+              type="text"
+              name="RoutineName"
+              onChange={this.handleNameInputOnChange}
+            />
           </div>
         </div>
         <hr />
@@ -295,6 +326,7 @@ export default class NewRoutines extends Component {
               <button
                 className="btn btn-primary"
                 onClick={this.handleStaticImage}
+                disabled={this.state.UploadImageDisabled}
               >
                 Upload Image
               </button>
@@ -308,6 +340,12 @@ export default class NewRoutines extends Component {
                 onChange={(e) => this.onImageFileChange(e)}
                 accept=""
               />
+            </td>
+            <td>
+              <div
+                className="spinner-border text-primary"
+                style={{ display: this.spinner_Style() }}
+              ></div>
             </td>
           </tr>
         </table>

@@ -4,6 +4,7 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import MainPage from './components/MainPage';
 import 'bootstrap/dist/css/bootstrap.css';
+import sideBar from './components/Utility/SideBar';
 
 
 
@@ -11,6 +12,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 ReactDOM.render(
   <React.StrictMode>
     <MainPage />
+    {/* <sideBar /> */}
   </React.StrictMode>,
   document.getElementById('root')
 );

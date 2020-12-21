@@ -12,17 +12,29 @@ const cors = require("cors");
 
 export default class LoadRoutines extends Component {
   state = {
-    Routines: this.props.routines,
-    // Routines: [],
+    Routines: [],
+    selectedRoutine: "",
   };
 
   componentDidMount() {
-    axios.get(`http://127.0.0.1:8000/AllRoutine/`).then((res) => {
-      console.log(res.data);
-      // const Routines = res.data;
-      // this.setState({ Routines });
-    });
+    axios
+      .get(`http://127.0.0.1:8000/GetRoutines/`)
+      .then((res) => {
+        console.log(res.data.routineData);
+        this.setState({
+          Routines: res.data.routineData,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
+
+  handleView = (r) => {
+    this.setState({
+      selectedRoutine: r,
+    });
+  };
 
   render() {
     return (
@@ -39,14 +51,22 @@ export default class LoadRoutines extends Component {
           }}
         >
           {this.state.Routines.map((r) => (
-            <NavLink to="/RoutineView" style={{ margin: "1%" }}>
-              <button className="btn btn-primary" key={r.name}>
-                {r.name}
+            <NavLink key={r} to="/RoutineView" style={{ margin: "1%" }}>
+              <button
+                className="btn btn-primary"
+                key={r.routineName}
+                onClick={() => this.handleView(r)}
+              >
+                {r.routineName}
               </button>
             </NavLink>
           ))}
         </div>
-        <Route path="/RoutineView" exact component={() => <RoutineView />} />
+        <Route
+          path="/RoutineView"
+          exact
+          component={() => <RoutineView routine={this.state.selectedRoutine} />}
+        />
       </Router>
     );
   }
