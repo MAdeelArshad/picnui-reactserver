@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import {
-  BrowserRouter as Router,
-  NavLink,
-  Route,
-  Link,
-} from "react-router-dom";
+import React from "react";
+// import {
+//   BrowserRouter as Router,
+//   NavLink,
+//   Route,
+//   Link,
+// } from "react-router-dom";
 
 const RoboProfileList = (props) => {
   return (
@@ -24,6 +24,7 @@ const RoboProfileList = (props) => {
         {props.ProfileData.map((r) => (
           <div
             className="card"
+            key={r}
             style={{
               margin: "1%",
               backgroundColor: "transparent",
@@ -31,7 +32,7 @@ const RoboProfileList = (props) => {
               border: "1px solid white",
             }}
           >
-            <div className="card-header">
+            <div key={r} className="card-header">
               <b>Profile: </b>
               {r.name}
               <hr style={{ backgroundColor: "white" }} />

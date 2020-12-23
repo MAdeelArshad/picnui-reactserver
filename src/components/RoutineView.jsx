@@ -1,36 +1,46 @@
-import React, { Component } from "react";
+import React from "react";
 
 const RoutineView = (props) => {
   return (
-    <div>
-      <h2>Pick and Place 1</h2>
+    <div
+      style={{
+        backgroundColor: "black",
+        opacity: ".8",
+        color: "white",
+        margin: "1%",
+        padding: "2em",
+      }}
+    >
+      <center>
+        {/* {console.log(props)} */}
+        <h2>{props.routine.routineName}</h2>
+      </center>
 
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>Point x</th>
-            <th>Point y</th>
-            <th>Point z</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>2.58</td>
-            <td>3.33</td>
-            <td>0.24</td>
-          </tr>
-          {/* <tr>
-            <td>Mary</td>
-            <td>Moe</td>
-            <td>mary@example.com</td>
-          </tr>
-          <tr>
-            <td>July</td>
-            <td>Dooley</td>
-            <td>july@example.com</td>
-          </tr> */}
-        </tbody>
-      </table>
+      <div
+        style={{
+          height: "15em",
+          overflow: "scroll",
+        }}
+      >
+        <table class="table table-striped" style={{ color: "white" }}>
+          <thead>
+            <tr>
+              <th>Point x</th>
+              <th>Point y</th>
+              <th>Point z</th>
+            </tr>
+          </thead>
+          <tbody>
+            {props.routine.points.map((p) => (
+              <tr>
+                <td>{p.x}</td>
+                <td>{p.y}</td>
+                <td>{p.z}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

@@ -26,7 +26,7 @@ class MainPage extends Component {
         capturedBy: "Moazzam",
       },
       {
-        name: "Pick and Place 1",
+        name: "Pick and Place 2",
         points: [
           { x: 3, y: 5, z: 3 },
           { x: 3, y: 8, z: 0 },
@@ -34,7 +34,7 @@ class MainPage extends Component {
         capturedBy: "A. Moazzam",
       },
       {
-        name: "Pick and Place 1",
+        name: "Pick and Place 3",
         points: [
           { x: 3, y: 5, z: 3 },
           { x: 3, y: 8, z: 0 },
@@ -42,7 +42,15 @@ class MainPage extends Component {
         capturedBy: "Abdul Moazzam",
       },
       {
-        name: "Pick and Place 1",
+        name: "Pick and Place 4",
+        points: [
+          { x: 3, y: 5, z: 3 },
+          { x: 3, y: 8, z: 0 },
+        ],
+        capturedBy: "Adeel",
+      },
+      {
+        name: "Pick and Place 4",
         points: [
           { x: 3, y: 5, z: 3 },
           { x: 3, y: 8, z: 0 },
@@ -93,12 +101,14 @@ class MainPage extends Component {
       <Router>
         <div
           class="container-fluid"
-          style={{
-            backgroundImage: `url("/Images/UR.jpg")`,
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "1200px 800px",
-          }}
+          style={
+            {
+              // backgroundImage: `url("/Images/UR.jpg")`,
+              // backgroundPosition: "center",
+              // backgroundRepeat: "no-repeat",
+              // backgroundSize: "1200px 800px",
+            }
+          }
         >
           <div class="row min-vh-100 flex-column flex-md-row">
             <aside class="col-12 col-md-2 p-0 bg-dark flex-shrink-1">
