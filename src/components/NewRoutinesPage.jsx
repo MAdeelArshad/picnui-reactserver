@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import axios, { post } from "axios";
+import axios from "axios";
+import Modal from "react-modal";
 
 export default class NewRoutines extends Component {
   state = {
@@ -9,6 +10,10 @@ export default class NewRoutines extends Component {
     points: [],
     UploadImageDisabled: true,
     show_hide_Spinner: false,
+    showModal: false,
+    webotsBtnDisabled: false,
+    urSimBtnDisabled: false,
+    saveBtnDisabled: false,
   };
 
   spinner_Style() {
@@ -198,8 +203,9 @@ export default class NewRoutines extends Component {
 
   handleOnSave = () => {
     // console.log(this.state.points);
+    console.log("Inside Save Handler!!!");
 
-    if (this.state.RoutineName !== "") {
+    if (this.state.RoutineName !== "" && this.state.points.length !== 0) {
       let data = {
         RoutineName: this.state.RoutineName,
         Points: this.state.points,
@@ -207,17 +213,78 @@ export default class NewRoutines extends Component {
       axios
         .post(`http://127.0.0.1:8000/SaveRoutine/`, data)
         .then((res) => {
-          this.setState({ points: [], image: "" });
+          this.setState({ points: [], image: "", RoutineName: "" });
 
           console.log(res.data);
+          window.alert("The Training Routine has been successfully Saved!");
         })
         .catch((error) => {
           console.log(error + "\n Duplicate Routine is not Allowed!");
           window.alert(error + "\n Duplicate Routine is not Allowed!");
         });
     } else {
-      window.alert("Routine Name is Empty!");
+      window.alert("Training Routine Name (OR) The Points are Empty!");
     }
+  };
+
+  //   -------------  Handle Webots Btn  ---------------------
+
+  handleWebotsSim = () => {
+    console.log("Webots Btn Clicked");
+    let data = {
+      RouitneName: this.state.RoutineName,
+      Points: this.state.points,
+    };
+    if (!this.state.points.length > 0 && !this.state.RoutineName !== "") {
+      axios
+        .post(`http://127.0.0.1:8000/TriggerWebotsSim/`, data)
+        .then((res) => {
+          // this.setState({ points: [], image: "" });
+
+          console.log(res.data);
+          if (res.data.errorCheckStatus === true) {
+            window.alert("ERROR MESSAGE: " + res.data.errorMessage);
+          }
+        })
+        .catch((error) => {
+          window.alert("ERROR MESSAGE: " + error);
+        });
+    } else {
+      window.alert(
+        "Either Routine Name is empty OR the points are not defined!"
+      );
+    }
+  };
+
+  //   -------------  Handle URSim Btn  ---------------------
+
+  handleURSim = () => {
+    console.log("URSim Btn Clicked");
+    let data = {
+      RouitneName: this.state.RoutineName,
+      Points: this.state.points,
+    };
+    axios
+      .post(`http://127.0.0.1:8000/TriggerURSim/`, data)
+      .then((res) => {
+        // this.setState({ points: [], image: "" });
+
+        console.log(res.data);
+        // window.alert("The Training Routine has been successfully Saved!");
+      })
+      .catch((error) => {
+        console.log(error + "\n Duplicate Routine is not Allowed!");
+        window.alert(error + "\n Duplicate Routine is not Allowed!");
+      });
+  };
+
+  setModelisOpen = (check) => {
+    this.setState({ showModal: check });
+    this.setState({
+      showRoutinesDisabled: true,
+      updateRoutineBtnDisabled: true,
+      unlinkRoutineBtnDisabled: false,
+    });
   };
 
   render() {
@@ -230,12 +297,66 @@ export default class NewRoutines extends Component {
           opacity: ".7",
         }}
       >
+        <Modal
+          isOpen={this.state.showModal}
+          onRequestClose={() => this.setModelisOpen(false)}
+          className="Modal"
+        >
+          <center>
+            <div
+              style={{
+                width: "25em",
+                height: "20em",
+                backgroundColor: "white",
+                marginTop: "2em",
+                border: "1px solid black",
+              }}
+            >
+              <h2>Select Simulation</h2>
+              <span>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => this.handleWebotsSim()}
+                  disabled={this.state.webotsBtnDisabled}
+                >
+                  Webots Simulation
+                </button>
+                &nbsp;&nbsp;
+                <button
+                  className="btn btn-primary"
+                  onClick={() => this.handleURSim()}
+                  disabled={this.state.urSimBtnDisabled}
+                >
+                  UR Simulation
+                </button>
+              </span>
+              <br />
+              <br />
+              <button
+                className="btn btn-primary"
+                onClick={() => this.handleOnSave()}
+                disabled={this.state.saveBtnDisabled}
+              >
+                Save
+              </button>
+              &nbsp;&nbsp;
+              <button
+                className="btn btn-danger"
+                onClick={() => this.setModelisOpen(false)}
+              >
+                close
+              </button>
+            </div>
+          </center>
+        </Modal>
+
         <h1> Routines Registration Page:</h1>
 
         <div className="row">
           <div className="col">
-            Routine Name:{" "}
+            <b>Training Routine Name:</b>
             <input
+              placeholder="Enter Training Routine Name ..."
               type="text"
               name="RoutineName"
               onChange={this.handleNameInputOnChange}
@@ -423,10 +544,9 @@ export default class NewRoutines extends Component {
                   <td>
                     <button
                       className="btn btn-warning"
-                      onClick={this.handleOnSave}
+                      onClick={() => this.setModelisOpen(true)}
                     >
-                      {" "}
-                      Save{" "}
+                      Simulate
                     </button>
                   </td>
                 </tr>

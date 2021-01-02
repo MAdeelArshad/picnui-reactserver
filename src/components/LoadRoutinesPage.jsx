@@ -1,14 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  NavLink,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
 // import Route from 'react-router-dom/Route';
 import RoutineView from "./RoutineView";
-const cors = require("cors");
 
 export default class LoadRoutines extends Component {
   state = {

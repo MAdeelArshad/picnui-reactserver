@@ -55,6 +55,7 @@ export default class RobotProfile extends Component {
         .post(`http://127.0.0.1:8000/SaveRobotProfile/`, data)
         .then((res) => {
           console.log(res.data);
+          window.alert("The Robot Profile has been successfully Saved!");
         })
         .catch((error) => {
           window.alert(error + "\n Duplicate Profile Name !!! Try Again");
@@ -97,7 +98,7 @@ export default class RobotProfile extends Component {
               <tr>
                 <td>
                   <label for="Profile Name" className="mr-sm-2">
-                    Name:
+                    Trainee Model No:
                   </label>
                 </td>
                 <td>
