@@ -14,11 +14,11 @@ class ProfileView extends Component {
     points: [],
   };
 
-  constructor(props) {
-    super(props);
-    // Don't call this.setState() here!
-    // this.state = { counter: 0 };
-  }
+  // constructor(props) {
+  //   super(props);
+  //   Don't call this.setState() here!
+  //   this.state = { counter: 0 };
+  // }
 
   componentDidMount() {
     // this.setState({
@@ -31,42 +31,57 @@ class ProfileView extends Component {
     // });
 
     const p = this.state.p;
-    axios
-      .post(`http://127.0.0.1:8000/GetRobotProfileWithRoutine/`, {
-        profilePK: p.profilePK,
-        routinePK: p.profile.linkedRoutine,
-      })
-      .then((res) => {
-        console.log("Returned Data: " + res.data);
-        let CompleteProfile = {
-          profileName: p.profile.name,
-          routineName: res.data.routineName,
-          points: res.data.points,
-        };
-        // this.state = { CompleteProfile: CompleteProfile };
-        // this.state = {
-        //   pName: CompleteProfile.profileName,
-        //   rName: CompleteProfile.routineName,
-        //   points: CompleteProfile.points,
-        // };
-        this.setState({
-          pName: CompleteProfile.profileName,
-          rName: CompleteProfile.routineName,
-          points: CompleteProfile.points,
-        });
-        // this.state = { rName: CompleteProfile.routineName };
-        // this.state = { points: CompleteProfile.points };
-        console.log("Constructure Inside 1: " + this.state.pName);
-        console.log("Constructure Inside 2: " + this.state.rName);
-        console.log("Constructure Inside 3: " + this.state.points);
 
-        // this.setState({
-        //   CompleteProfile: CompleteProfile,
-        // });
-      })
-      .catch((error) => {
-        console.log(error);
+    if (p.profile.linkedRoutine !== -1) {
+      axios
+        .post(`http://127.0.0.1:8000/GetRobotProfileWithRoutine/`, {
+          profilePK: p.profilePK,
+          routinePK: p.profile.linkedRoutine,
+        })
+        .then((res) => {
+          console.log("Returned Data: " + res.data);
+          let CompleteProfile = {
+            profileName: p.profile.name,
+            routineName: res.data.routineName,
+            points: res.data.points,
+          };
+          // this.state = { CompleteProfile: CompleteProfile };
+          // this.state = {
+          //   pName: CompleteProfile.profileName,
+          //   rName: CompleteProfile.routineName,
+          //   points: CompleteProfile.points,
+          // };
+          this.setState({
+            pName: CompleteProfile.profileName,
+            rName: CompleteProfile.routineName,
+            points: CompleteProfile.points,
+          });
+          // this.state = { rName: CompleteProfile.routineName };
+          // this.state = { points: CompleteProfile.points };
+          console.log("Constructure Inside 1: " + this.state.pName);
+          console.log("Constructure Inside 2: " + this.state.rName);
+          console.log("Constructure Inside 3: " + this.state.points);
+
+          // this.setState({
+          //   CompleteProfile: CompleteProfile,
+          // });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      let CompleteProfile = {
+        profileName: p.profile.name,
+        routineName: "N/A",
+        points: [],
+      };
+      this.setState({
+        pName: CompleteProfile.profileName,
+        rName: CompleteProfile.routineName,
+        points: CompleteProfile.points,
       });
+    }
+
     console.log("Constructure: " + this.state.CompleteProfile);
   }
 

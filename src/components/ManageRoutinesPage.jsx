@@ -74,6 +74,7 @@ export default class ManageRoutines extends Component {
           UpdatedroutineList[itemIndex] = item;
           // update the state
           this.setState({ routinesList: UpdatedroutineList });
+          window.alert("The Changes has been successfully Reflected!");
         })
         .catch((error) => {
           window.alert("ERROR: " + error);
@@ -89,7 +90,7 @@ export default class ManageRoutines extends Component {
       console.log(element.profile.linkedRoutine);
       console.log(r.routineID);
 
-      if (element.profile.linkedRoutine == r.routineID) {
+      if (element.profile.linkedRoutine === r.routineID) {
         console.log(
           "Cannot delete this Routine as it is already linked with the " +
             r.routineName +
@@ -127,6 +128,9 @@ export default class ManageRoutines extends Component {
               let routinesList = [...this.state.routinesList];
               routinesList.pop(this.state.selectedRoutine);
               this.setState({ routinesList: routinesList });
+              window.alert(
+                "The Training Routine has been successfully Deleted!"
+              );
             }
 
             console.log(this.state.routinesList);
