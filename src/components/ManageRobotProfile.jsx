@@ -125,8 +125,8 @@ class ViewRobotProfile extends Component {
     if (
       window.confirm(
         "Do you want to delete this robot profile: " +
-          p.profile.name +
-          "? \n Note: that the routine lined to this profile will be unlinked but not deleted!"
+        p.profile.name +
+        "? \n Note: that the routine lined to this profile will be unlinked but not deleted!"
       )
     ) {
       console.log("Yes Delete");
@@ -332,62 +332,77 @@ class ViewRobotProfile extends Component {
           </center>
         </Modal>
 
-        <div style={{ height: "30em", overflow: "scroll" }}>
+        <div style={{ height: "30em", overflow: "auto" }}>
           <h1>Manage Robot Profiles</h1>
-          {this.state.Profiles.map((p) => (
-            <div key={p.profile.name}>
-              <div
-                class="card"
-                style={{
-                  opacity: ".7",
-                  color: "white",
-                  backgroundColor: "black",
-                }}
-              >
-                <div class="card-header" key={p.profile.name}>
-                  <div class="row" key={p.profile.name}>
-                    <div class="col-md-4">{p.profile.name}</div>
-                    <div class="col-md-4"> </div>
-                    <div class="col-md-1">
-                      <Link to="/ProfileView">
+          {this.state.Profiles > 0 ? (
+            this.state.Profiles.map((p) => (
+              <div key={p.profile.name}>
+                <div
+                  class="card"
+                  style={{
+                    opacity: ".7",
+                    color: "white",
+                    backgroundColor: "black",
+                  }}
+                >
+                  <div class="card-header" key={p.profile.name}>
+                    <div class="row" key={p.profile.name}>
+                      <div class="col-md-4">{p.profile.name}</div>
+                      <div class="col-md-4"> </div>
+                      <div class="col-md-1">
+                        <Link to="/ProfileView">
+                          <button
+                            class="btn btn-info"
+                            onClick={() => this.handleView(p)}
+                          >
+                            View
+                        </button>
+                        </Link>
+                      </div>
+                      <div class="col-md-1">
                         <button
                           class="btn btn-info"
-                          onClick={() => this.handleView(p)}
+                          onClick={() => this.handleEdit(p)}
                         >
-                          View
-                        </button>
-                      </Link>
-                    </div>
-                    <div class="col-md-1">
-                      <button
-                        class="btn btn-info"
-                        onClick={() => this.handleEdit(p)}
-                      >
-                        Edit
+                          Edit
                       </button>
-                    </div>
-                    <div class="col-md-1">
-                      <button
-                        class="btn btn-danger"
-                        onClick={() => this.handleDelete(p)}
-                      >
-                        Delete
+                      </div>
+                      <div class="col-md-1">
+                        <button
+                          class="btn btn-danger"
+                          onClick={() => this.handleDelete(p)}
+                        >
+                          Delete
                       </button>
-                    </div>
-                    <div class="col-md-1">
-                      <button
-                        class="btn btn-warning"
-                        onClick={() => this.setModelisOpen(true, p)}
-                      >
-                        Change Routine
+                      </div>
+                      <div class="col-md-1">
+                        <button
+                          class="btn btn-warning"
+                          onClick={() => this.setModelisOpen(true, p)}
+                        >
+                          Change Routine
                       </button>
+                      </div>
                     </div>
                   </div>
                 </div>
+                <br />
               </div>
-              <br />
-            </div>
-          ))}
+            ))
+          ) : (
+              <h3 style={
+                {
+                  padding: "2em",
+                  backgroundColor: "white",
+                  width: "100%",
+                  height: "100%",
+                  textAlign: "center",
+                  color: "darkred"
+
+                }
+              } >Currently no Profile is inserted </h3>
+            )}
+
         </div>
         <Route
           path="/ProfileView"

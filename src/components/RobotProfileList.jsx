@@ -14,11 +14,11 @@ const RoboProfileList = (props) => {
         className="row"
         style={{
           //   margin: "1%",
-          backgroundColor: "black",
+          backgroundColor: "darkslategray",
           opacity: ".6",
-          overflow: "scroll ",
-          width: "100%",
-          height: "48em",
+          overflow: "auto",
+          width: "85%",
+          height: "35em",
         }}
       >
         {props.ProfileData.map((r) => (
@@ -28,12 +28,17 @@ const RoboProfileList = (props) => {
             style={{
               margin: "1%",
               backgroundColor: "transparent",
-              color: "white",
+              color: "ThreeDDarkShadow",
               border: "1px solid white",
+              fontFamily: "monospace"
             }}
           >
             <div key={r} className="card-header">
-              <b>Profile: </b>
+              <b style={{
+                color: "white",
+                fontFamily: "unset",
+                fontWeight: "100%"
+              }}>Profile: </b>
               {r.name}
               <hr style={{ backgroundColor: "white" }} />
               <b>Routine: </b> {r.routine}

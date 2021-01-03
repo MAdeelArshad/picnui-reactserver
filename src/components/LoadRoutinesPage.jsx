@@ -38,23 +38,42 @@ export default class LoadRoutines extends Component {
           className="row"
           style={{
             margin: "2%",
-            overflow: "scroll",
+            overflow: "auto",
             height: "30%",
             backgroundColor: "black",
             opacity: ".8",
           }}
         >
-          {this.state.Routines.map((r) => (
-            <NavLink key={r} to="/RoutineView" style={{ margin: "1%" }}>
-              <button
-                className="btn btn-primary"
-                key={r.routineName}
-                onClick={() => this.handleView(r)}
-              >
-                {r.routineName}
-              </button>
-            </NavLink>
-          ))}
+
+
+          {this.state.Routines.length > 0 ? (
+
+            this.state.Routines.map((r) => (
+              <NavLink key={r} to="/RoutineView" style={{ margin: "1%" }}>
+                <button
+                  className="btn btn-primary"
+                  key={r.routineName}
+                  onClick={() => this.handleView(r)}
+                >
+                  {r.routineName}
+                </button>
+              </NavLink>
+            ))
+          ) : (
+              <h3 style={
+                {
+                  padding: "2em",
+                  backgroundColor: "white",
+                  width: "100%",
+                  height: "100%",
+                  textAlign: "center",
+                  color: "darkred"
+
+                }
+              } >Currently no routine is inserted </h3>
+            )}
+
+
         </div>
         <Route
           path="/RoutineView"

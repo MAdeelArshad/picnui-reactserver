@@ -113,24 +113,24 @@ class MainPage extends Component {
           <div class="row min-vh-100 flex-column flex-md-row">
             <aside class="col-12 col-md-2 p-0 bg-dark flex-shrink-1">
               <nav class="navbar navbar-expand navbar-dark bg-dark flex-md-column flex-row align-items-start py-2">
-                <div class="collapse navbar-collapse ">
+                <div class="collapse navbar-collapse " >
                   <ul class="flex-md-column flex-row navbar-nav w-100 justify-content-between">
                     <li class="nav-item">
                       <Link to="WelcomePage" class="nav-link pl-0 text-nowrap">
                         <i class="fa fa-bullseye fa-fw"></i>
                         <span class="font-weight-bold">
-                          Learning Management System (LMS)
+                          Learning Management <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System (LMS)
                         </span>
                       </Link>
                     </li>
-                    <li class="nav-item">
+                    {/* <li class="nav-item">
                       <Link to="RoboProfileList" class="nav-link pl-0">
                         <i class="fa fa-book fa-fw"></i>{" "}
                         <span class="d-none d-md-inline">
                           View Robot Profiles
                         </span>
                       </Link>
-                    </li>
+                    </li> */}
                     <li class="nav-item">
                       <Link class="nav-link pl-0" to="NewRobotProfile">
                         <i class="fa fa-cog fa-fw"></i>
@@ -151,7 +151,7 @@ class MainPage extends Component {
                       <Link to="WelcomePage" class="nav-link pl-0 text-nowrap">
                         <i class="fa fa-bullseye fa-fw"></i>{" "}
                         <span class="font-weight-bold">
-                          Robot Learning Management System <wbr /> (RLMS)
+                          Robot Learning<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Management System <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (RLMS)
                         </span>
                       </Link>
                     </li>
@@ -225,7 +225,7 @@ class MainPage extends Component {
             </main>
           </div>
         </div>
-      </Router>
+      </Router >
     );
   }
 }
