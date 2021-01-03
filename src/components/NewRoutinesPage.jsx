@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
 import Modal from "react-modal";
-
+import Spinner from 'react-bootstrap/Spinner';
+import Button from 'react-bootstrap/Button';
 export default class NewRoutines extends Component {
   state = {
     testRes: "",
@@ -14,22 +15,22 @@ export default class NewRoutines extends Component {
     webotsBtnDisabled: false,
     urSimBtnDisabled: false,
     saveBtnDisabled: false,
+    isLoad: false
   };
 
-  spinner_Style() {
-    return this.state.show_hide_Spinner ? "visable" : "none";
-  }
+
 
   handleSubmit = () => {
     // event.preventDefault();
 
     const routine = "Regular Moazzam 1 Routine";
-
+    this.setState({ isLoad: true })
     axios
       .post(`http://127.0.0.1:8000/Testing/`, { routine })
       .then((res) => {
         this.setState({ testRes: res.data });
         console.log(res.data);
+        this.setState({ isLoad: false })
       })
       .catch((error) => {
         console.log(error);
@@ -39,12 +40,13 @@ export default class NewRoutines extends Component {
 
   handleRecordedVideo = () => {
     // const fileName = this.state.options["url"];
-
+    this.setState({ isLoad: true })
     axios
       .post(`http://127.0.0.1:8000/RecoredVideo/`, this.state.options)
       .then((res) => {
         //   this.setState({ testRes: res.data })
         console.log(res.data);
+        this.setState({ isLoad: false })
       })
       .catch((error) => {
         console.log(error);
@@ -54,6 +56,7 @@ export default class NewRoutines extends Component {
   //   -------------  Kinect Live Stream Handler  ---------------------
 
   handleKinectLiveStream = () => {
+    this.setState({ isLoad: true })
     axios
       .post(`http://127.0.0.1:8000/KinectLiveStream/`, {
         option: "kinect",
@@ -62,6 +65,8 @@ export default class NewRoutines extends Component {
       .then((res) => {
         //   this.setState({ testRes: res.data })
         console.log(res.data);
+        this.setState({ isLoad: false })
+
       })
       .catch((error) => {
         console.log(error);
@@ -71,6 +76,7 @@ export default class NewRoutines extends Component {
   //   -------------  Camera Live Stream Handler  ---------------------
 
   handleCameraLiveStream = () => {
+    this.setState({ isLoad: true })
     axios
       .post(`http://127.0.0.1:8000/CameraLiveStream/`, {
         option: "camera",
@@ -79,6 +85,8 @@ export default class NewRoutines extends Component {
       .then((res) => {
         //   this.setState({ testRes: res.data })
         console.log(res.data);
+        this.setState({ isLoad: false })
+
       })
       .catch((error) => {
         console.log(error);
@@ -88,6 +96,7 @@ export default class NewRoutines extends Component {
   //   -------------  Static Camera Image Handler  ---------------------
 
   handleCameraStaticImage = () => {
+    this.setState({ isLoad: true })
     axios
       .post(`http://127.0.0.1:8000/CameraStaticImage/`, {
         option: "camera image",
@@ -96,8 +105,10 @@ export default class NewRoutines extends Component {
       .then((res) => {
         //   this.setState({ testRes: res.data })
         console.log("response: ", res.data);
+
         this.setState({
           points: [...this.state.points, res.data.points],
+          isLoad: false
         });
         console.log("State Test: ", this.state.points);
       })
@@ -109,6 +120,7 @@ export default class NewRoutines extends Component {
   //   -------------  Static Kinect Image Handler  ---------------------
 
   handleKinectStaticImage = () => {
+    this.setState({ isLoad: true })
     axios
       .post(`http://127.0.0.1:8000/KinectStaticImage/`, {
         option: "kinect image",
@@ -117,6 +129,8 @@ export default class NewRoutines extends Component {
       .then((res) => {
         //   this.setState({ testRes: res.data })
         console.log(res.data);
+        this.setState({ isLoad: false })
+
       })
       .catch((error) => {
         console.log(error);
@@ -126,14 +140,16 @@ export default class NewRoutines extends Component {
   //   -------------  Static Image Handler  ---------------------
 
   handleStaticImage = () => {
+
     console.log(this.state.options);
-    this.setState({ show_hide_Spinner: true });
+    this.setState({ isLoad: true })
     axios
       .post(`http://127.0.0.1:8000/StaticImage/`, this.state.options)
       .then((res) => {
         //   this.setState({ testRes: res.data })
         console.log("response: ", res.data);
         this.setState({
+          isLoad: false,
           points: [...this.state.points, res.data.points],
         });
         let s = { ...this.state };
@@ -463,10 +479,23 @@ export default class NewRoutines extends Component {
               />
             </td>
             <td>
-              <div
-                className="spinner-border text-primary"
-                style={{ display: this.spinner_Style() }}
-              ></div>
+
+              <tr>
+
+                {this.state.isLoad ? (<Button variant="primary" disabled>
+
+                  <Spinner
+                    as="span"
+                    animation="grow"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                  />
+                Loading...
+                </Button>
+
+                ) : ""}
+              </tr>
             </td>
           </tr>
         </table>
@@ -533,13 +562,27 @@ export default class NewRoutines extends Component {
               <table>
                 <tr>
                   <td>
-                    <button className="btn btn-warning"> Retry </button>
+                    <button className="btn btn-warning"
+                      onClick={() => {
+                        this.setState({
+                          points: [],
+                          RoutineName: "",
+                        })
+                      }}
+                    > Reset</button>
                   </td>
                   <td>
-                    <button className="btn btn-warning"> Back </button>
-                  </td>
-                  <td>
-                    <button className="btn btn-warning"> Next </button>
+                    <button className="btn btn-warning"
+                      onClick={() => {
+
+                        var list = [...this.state.points]
+                        list.pop()
+                        this.setState({
+                          points: list
+                        }
+                        )
+
+                      }}> Back </button>
                   </td>
                   <td>
                     <button

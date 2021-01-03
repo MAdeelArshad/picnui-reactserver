@@ -93,8 +93,8 @@ export default class ManageRoutines extends Component {
       if (element.profile.linkedRoutine === r.routineID) {
         console.log(
           "Cannot delete this Routine as it is already linked with the " +
-            r.routineName +
-            " Profile!"
+          r.routineName +
+          " Profile!"
         );
         CheckLinking = true;
       }
@@ -104,8 +104,8 @@ export default class ManageRoutines extends Component {
     if (CheckLinking) {
       window.alert(
         "Cannot delete this Routine as it is already linked with the (" +
-          r.routineName +
-          ") Profile!"
+        r.routineName +
+        ") Profile!"
       );
     } else {
       if (
@@ -148,8 +148,8 @@ export default class ManageRoutines extends Component {
       <Router>
         <h1> Manage Routines: </h1>
 
-        <div className="col " style={{ overflow: "scroll", height: "23em" }}>
-          {this.state.routinesList.map((r) => (
+        <div className="col " style={{ overflow: "auto", height: "23em" }}>
+          {this.state.routinesList > 0 ? (this.state.routinesList.map((r) => (
             <div>
               <div
                 class="card"
@@ -194,7 +194,20 @@ export default class ManageRoutines extends Component {
               </div>
               <br />
             </div>
-          ))}
+          ))) : (
+              <h3 style={
+                {
+                  padding: "2em",
+                  backgroundColor: "white",
+                  width: "100%",
+                  height: "100%",
+                  textAlign: "center",
+                  color: "darkred"
+
+                }
+              } >Currently no Profile is inserted </h3>
+            )}
+
         </div>
 
         <br />
