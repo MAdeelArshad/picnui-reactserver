@@ -476,23 +476,29 @@ export default class NewRoutines extends Component {
                 class="file"
                 onChange={(e) => this.onImageFileChange(e)}
                 accept=""
+                style={{ width: "14em" }}
               />
             </td>
             <td>
 
               <tr>
 
-                {this.state.isLoad ? (<Button variant="primary" disabled>
+                {this.state.isLoad ? (
+                  <span>
+                    <img src="/Images/731.png" alt="loading" style={{
+                      padding: "0.7em",
+                      float: "left",
+                      paddingLeft: "-0.8em"
+                    }} />
+                    <h5 style={{
+                      float: "right",
+                      paddingTop: "0.7em",
+                      paddingLeft: "0.2em"
+                    }}>
+                      Loading...
+                  </h5>
+                  </span>
 
-                  <Spinner
-                    as="span"
-                    animation="grow"
-                    size="sm"
-                    role="status"
-                    aria-hidden="true"
-                  />
-                Loading...
-                </Button>
 
                 ) : ""}
               </tr>
