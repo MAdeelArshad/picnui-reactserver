@@ -24,7 +24,7 @@ This servise is based on react server which contain REST API to use the Django B
 3.  Install all packages of node use by this project:
 
 ```
-	npm install
+    npm install
 ```
 
 

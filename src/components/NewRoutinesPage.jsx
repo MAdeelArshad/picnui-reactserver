@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import axios from "axios";
 import Modal from "react-modal";
-import Spinner from 'react-bootstrap/Spinner';
-import Button from 'react-bootstrap/Button';
+import WarningModal from "./WarningModal";
+// import ErrorModal from "./ErrorModal";
 export default class NewRoutines extends Component {
+
+
   state = {
     testRes: "",
     RoutineName: "",
@@ -15,8 +17,12 @@ export default class NewRoutines extends Component {
     webotsBtnDisabled: false,
     urSimBtnDisabled: false,
     saveBtnDisabled: false,
-    isLoad: false
+    isLoad: false,
+    modalMessege: "Currently this service is disable ",
+    modalStatus: false,
+    isOpen: true
   };
+
 
 
 
@@ -33,6 +39,12 @@ export default class NewRoutines extends Component {
         this.setState({ isLoad: false })
       })
       .catch((error) => {
+        this.setState({
+          isLoad: false,
+          modalStatus: true,
+          modalMessege: "Network Error Occured !"
+
+        })
         console.log(error);
       });
   };
@@ -46,9 +58,21 @@ export default class NewRoutines extends Component {
       .then((res) => {
         //   this.setState({ testRes: res.data })
         console.log(res.data);
-        this.setState({ isLoad: false })
+        this.setState({
+          isLoad: false,
+          modalStatus: true,
+          modalMessege: "Currently the recorded Video option is not available due to performance issue in your PC. "
+
+        })
       })
       .catch((error) => {
+
+        this.setState({
+          isLoad: false,
+          modalStatus: true,
+          modalMessege: "Network Error Occured !"
+
+        })
         console.log(error);
       });
   };
@@ -65,10 +89,22 @@ export default class NewRoutines extends Component {
       .then((res) => {
         //   this.setState({ testRes: res.data })
         console.log(res.data);
-        this.setState({ isLoad: false })
+        this.setState({
+          isLoad: false,
+          modalStatus: true,
+          modalMessege: "Currently the Kinect Live Stream option is not available due to performance issue in your PC. "
+
+        })
 
       })
       .catch((error) => {
+
+        this.setState({
+          isLoad: false,
+          modalStatus: true,
+          modalMessege: "Network Error Occured !"
+
+        })
         console.log(error);
       });
   };
@@ -79,17 +115,28 @@ export default class NewRoutines extends Component {
     this.setState({ isLoad: true })
     axios
       .post(`http://127.0.0.1:8000/CameraLiveStream/`, {
-        option: "camera",
+        option: "live stream",
         url: "",
       })
       .then((res) => {
         //   this.setState({ testRes: res.data })
         console.log(res.data);
-        this.setState({ isLoad: false })
+        this.setState({
+          isLoad: false,
+          modalStatus: true,
+          modalMessege: "Currently the Camera Live Stream option is not available due to performance issue in your PC. "
+
+        })
 
       })
       .catch((error) => {
-        console.log(error);
+        this.setState({
+          isLoad: false,
+          modalStatus: true,
+          modalMessege: "Some thing went wrong !"
+
+        })
+        console.log("IN ERROR ");
       });
   };
 
@@ -105,14 +152,30 @@ export default class NewRoutines extends Component {
       .then((res) => {
         //   this.setState({ testRes: res.data })
         console.log("response: ", res.data);
+        if (res.data.status === 502) {
+          this.setState({
+            isLoad: false,
+            modalStatus: true,
+            modalMessege: "The image you provide doesn't contain valid points."
+          })
+          console.log("error occured")
+        } else {
 
-        this.setState({
-          points: [...this.state.points, res.data.points],
-          isLoad: false
-        });
-        console.log("State Test: ", this.state.points);
+          this.setState({
+            points: [...this.state.points, res.data.points],
+            isLoad: false
+          });
+          console.log("State Test: ", this.state.points);
+        }
       })
       .catch((error) => {
+
+        this.setState({
+          isLoad: false,
+          modalStatus: true,
+          modalMessege: "Network Error Occured !"
+
+        })
         console.log(error);
       });
   };
@@ -127,12 +190,30 @@ export default class NewRoutines extends Component {
         url: "",
       })
       .then((res) => {
-        //   this.setState({ testRes: res.data })
-        console.log(res.data);
-        this.setState({ isLoad: false })
+        if (res.data.status === 502) {
+          this.setState({
+            isLoad: false,
+            modalStatus: true,
+            modalMessege: "The image you provide doesn't contain valid points or might be kinect is not connected."
+          })
+          console.log("error occured")
+        } else {
 
+          this.setState({
+            points: [...this.state.points, res.data.points],
+            isLoad: false
+          });
+          console.log("State Test: ", this.state.points);
+        }
       })
       .catch((error) => {
+
+        this.setState({
+          isLoad: false,
+          modalStatus: true,
+          modalMessege: "Network Error Occured !"
+
+        })
         console.log(error);
       });
   };
@@ -148,16 +229,35 @@ export default class NewRoutines extends Component {
       .then((res) => {
         //   this.setState({ testRes: res.data })
         console.log("response: ", res.data);
-        this.setState({
-          isLoad: false,
-          points: [...this.state.points, res.data.points],
-        });
-        let s = { ...this.state };
-        s.image = s.options.url;
-        this.setState(s);
-        console.log("State Test: ", this.state.points);
+        if (res.data.status === 502) {
+          this.setState({
+            isLoad: false,
+            modalStatus: true,
+            modalMessege: "The image you provide doesn't contain valid points."
+          })
+          console.log("error occured")
+        } else {
+
+          this.setState({
+            points: [...this.state.points, res.data.points],
+            isLoad: false
+          });
+
+          let s = { ...this.state };
+          s.image = s.options.url;
+          this.setState(s);
+          console.log("State Test: ", this.state.points);
+
+        }
       })
       .catch((error) => {
+
+        this.setState({
+          isLoad: false,
+          modalStatus: true,
+          modalMessege: "Network Error Occured !"
+
+        })
         console.log(error);
       });
   };
@@ -302,6 +402,14 @@ export default class NewRoutines extends Component {
       unlinkRoutineBtnDisabled: false,
     });
   };
+  closeWarningModal = () => {
+    this.setState(
+      {
+        modalStatus: false,
+        modalMessege: ""
+
+      })
+  }
 
   render() {
     return (
@@ -313,6 +421,11 @@ export default class NewRoutines extends Component {
           opacity: ".7",
         }}
       >
+        <WarningModal option={{
+          open: this.state.modalStatus,
+          onClose: this.closeWarningModal,
+          messege: this.state.modalMessege
+        }} />
         <Modal
           isOpen={this.state.showModal}
           onRequestClose={() => this.setModelisOpen(false)}
@@ -398,7 +511,7 @@ export default class NewRoutines extends Component {
               type="button"
               class="btn btn-primary"
               onClick={this.handleRecordedVideo}
-              disabled
+
             >
               Upload Recorded Video
             </button>
@@ -416,7 +529,6 @@ export default class NewRoutines extends Component {
               <button
                 class="btn btn-primary"
                 onClick={this.handleKinectLiveStream}
-                disabled
               >
                 Using Kinect
               </button>
@@ -425,7 +537,6 @@ export default class NewRoutines extends Component {
               <button
                 class="btn btn-primary"
                 onClick={this.handleCameraLiveStream}
-                disabled
               >
                 Using Embeded Camera
               </button>
@@ -476,23 +587,30 @@ export default class NewRoutines extends Component {
                 class="file"
                 onChange={(e) => this.onImageFileChange(e)}
                 accept=""
+                style={{ width: "14em" }}
               />
             </td>
             <td>
 
               <tr>
 
-                {this.state.isLoad ? (<Button variant="primary" disabled>
+                {this.state.isLoad ? (
+                  <span>
+                    <img src="/Images/731.png" alt="loading" style={{
+                      padding: "0.7em",
+                      float: "left",
+                      paddingLeft: "-0.8em"
+                    }} />
+                    <h5 style={{
+                      float: "right",
+                      fontFamily: "monospace",
+                      paddingTop: "0.7em",
+                      paddingLeft: "0.2em"
+                    }}>
+                      Loading...
+                  </h5>
+                  </span>
 
-                  <Spinner
-                    as="span"
-                    animation="grow"
-                    size="sm"
-                    role="status"
-                    aria-hidden="true"
-                  />
-                Loading...
-                </Button>
 
                 ) : ""}
               </tr>

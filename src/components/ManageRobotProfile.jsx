@@ -332,9 +332,9 @@ class ViewRobotProfile extends Component {
           </center>
         </Modal>
 
-        <div style={{ height: "30em", overflow: "auto" }}>
+        <div style={{ height: "auto", overflow: "auto" }}>
           <h1>Manage Robot Profiles</h1>
-          {this.state.Profiles > 0 ? (
+          {this.state.Profiles.length > 0 ? (
             this.state.Profiles.map((p) => (
               <div key={p.profile.name}>
                 <div
