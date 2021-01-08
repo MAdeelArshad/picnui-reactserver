@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+import logo from './picnui.png';
 import './App.css';
 
 

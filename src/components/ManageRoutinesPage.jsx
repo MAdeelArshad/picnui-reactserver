@@ -148,8 +148,8 @@ export default class ManageRoutines extends Component {
       <Router>
         <h1> Manage Routines: </h1>
 
-        <div className="col " style={{ overflow: "auto", height: "23em" }}>
-          {this.state.routinesList > 0 ? (this.state.routinesList.map((r) => (
+        <div className="col " style={{ overflow: "auto", height: "auto" }}>
+          {this.state.routinesList.length > 0 ? (this.state.routinesList.map((r) => (
             <div>
               <div
                 class="card"
