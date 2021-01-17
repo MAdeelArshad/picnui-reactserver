@@ -1,14 +1,12 @@
 import React, { Component } from "react";
 import {
   BrowserRouter as Router,
-  NavLink,
   Route,
   Link,
 } from "react-router-dom";
 import LoadRoutines from "./LoadRoutinesPage";
 import ManageRoutines from "./ManageRoutinesPage";
 import NewRoutines from "./NewRoutinesPage";
-import RoutineView from "./RoutineView";
 import RoboProfileList from "./RobotProfileList";
 import Welcome from "./Welcome";
 import RobotProfile from "./NewRobotProfile";
