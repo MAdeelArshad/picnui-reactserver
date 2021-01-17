@@ -351,7 +351,7 @@ export default class NewRoutines extends Component {
       RouitneName: this.state.RoutineName,
       Points: this.state.points,
     };
-    if (!this.state.points.length > 0 && !this.state.RoutineName !== "") {
+    if (this.state.points.length > 0 && this.state.RoutineName !== "") {
       axios
         .post(`http://127.0.0.1:8000/TriggerWebotsSim/`, data)
         .then((res) => {

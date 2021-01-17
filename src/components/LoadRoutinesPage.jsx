@@ -3,11 +3,15 @@ import axios from "axios";
 import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
 // import Route from 'react-router-dom/Route';
 import RoutineView from "./RoutineView";
+import SimDialogBox from "./SimulationDialogBox";
 
 export default class LoadRoutines extends Component {
   state = {
     Routines: [],
     selectedRoutine: "",
+    modalMessege: "Currently this service is disable ",
+    modalStatus: false,
+    
   };
 
   componentDidMount() {
@@ -30,6 +34,26 @@ export default class LoadRoutines extends Component {
     });
   };
 
+  closeWarningModal = () => {
+    this.setState(
+      {
+        modalStatus: false,
+        modalMessege: ""
+
+      })
+  }
+
+  handleRoutineDeployment = () => {
+    console.log("points before going to the Simulation: " + this.state.selectedRoutine.points.length)
+    console.log(this.state.selectedRoutine)
+    this.setState(
+      {
+        modalStatus: true,
+        modalMessege: ""
+
+      })
+  }
+
   render() {
     return (
       <Router>
@@ -44,20 +68,28 @@ export default class LoadRoutines extends Component {
             opacity: ".8",
           }}
         >
-
-
+           
           {this.state.Routines.length > 0 ? (
 
             this.state.Routines.map((r) => (
-              <NavLink key={r} to="/RoutineView" style={{ margin: "1%" }}>
-                <button
-                  className="btn btn-primary"
-                  key={r.routineName}
-                  onClick={() => this.handleView(r)}
-                >
-                  {r.routineName}
-                </button>
-              </NavLink>
+              <div style={{margin: "2%",}}><NavLink key={r} to="/RoutineView" style={{ margin: "1%" }}>
+              <button
+                className="btn btn-primary"
+                key={r.routineName}
+                onClick={() => this.handleView(r)}
+              >
+                {r.routineName}
+              </button>
+              
+
+            </NavLink>
+
+            <SimDialogBox option={{
+    open: this.state.modalStatus,
+    onClose: this.closeWarningModal,
+    messege: this.state.selectedRoutine
+  }}  />
+            </div>
             ))
           ) : (
               <h3 style={
@@ -75,6 +107,16 @@ export default class LoadRoutines extends Component {
 
 
         </div>
+
+              <div className="row">
+              <div className="col-md-10">
+                </div>
+              <div className="col-md-2">
+                {this.state.selectedRoutine !== "" ? <button onClick={() => {this.handleRoutineDeployment()}} className="btn btn-primary" >Deploy Training Routine</button> : ""}
+                
+              </div>
+              </div>
+
         <Route
           path="/RoutineView"
           exact
