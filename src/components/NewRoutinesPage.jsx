@@ -333,6 +333,7 @@ export default class NewRoutines extends Component {
 
           console.log(res.data);
           window.alert("The Training Routine has been successfully Saved!");
+          this.setState({ showModal: false });
         })
         .catch((error) => {
           console.log(error + "\n Duplicate Routine is not Allowed!");
@@ -395,12 +396,24 @@ export default class NewRoutines extends Component {
   };
 
   setModelisOpen = (check) => {
-    this.setState({ showModal: check });
-    this.setState({
-      showRoutinesDisabled: true,
-      updateRoutineBtnDisabled: true,
-      unlinkRoutineBtnDisabled: false,
-    });
+
+    if(check){
+      if (this.state.RoutineName !== "" && this.state.points.length !== 0) {
+        this.setState({ showModal: check });
+        this.setState({
+          showRoutinesDisabled: true,
+          updateRoutineBtnDisabled: true,
+          unlinkRoutineBtnDisabled: false,
+        });
+      }else {
+        window.alert("Training Routine Name (OR) The Points are Empty!");
+      }
+    }else{
+      this.setState({ showModal: check });
+    }
+
+
+    
   };
   closeWarningModal = () => {
     this.setState(
@@ -488,6 +501,7 @@ export default class NewRoutines extends Component {
               placeholder="Enter Training Routine Name ..."
               type="text"
               name="RoutineName"
+              value={this.state.RoutineName}
               onChange={this.handleNameInputOnChange}
             />
           </div>
@@ -685,6 +699,7 @@ export default class NewRoutines extends Component {
                         this.setState({
                           points: [],
                           RoutineName: "",
+                          image: ""
                         })
                       }}
                     > Reset</button>

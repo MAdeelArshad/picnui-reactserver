@@ -55,6 +55,9 @@ export default class RobotProfile extends Component {
         .post(`http://127.0.0.1:8000/SaveRobotProfile/`, data)
         .then((res) => {
           console.log(res.data);
+          this.setState({
+            ProfileName: ""
+          })
           window.alert("The Robot Profile has been successfully Saved!");
         })
         .catch((error) => {
@@ -108,6 +111,7 @@ export default class RobotProfile extends Component {
                     placeholder="Enter Profile Name"
                     id="Profile Name"
                     name="ProfileName"
+                    value={this.state.ProfileName}
                     onChange={this.handleNameInputOnChange}
                   />
                 </td>

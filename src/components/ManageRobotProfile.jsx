@@ -46,32 +46,20 @@ class ViewRobotProfile extends Component {
   }
 
   handleView = (p) => {
-    // axios
-    //   .post(`http://127.0.0.1:8000/GetRobotProfileWithRoutine/`, {
-    //     profilePK: p.profilePK,
-    //     routinePK: p.profile.linkedRoutine,
-    //   })
-    //   .then((res) => {
-    //     console.log(res.data);
-    //     let CompleteProfile = {
-    //       profileName: p.profile.name,
-    //       routineName: res.data.routineName,
-    //       points: res.data.points,
-    //     };
-    //     this.setState({
-    //       CompleteProfile: CompleteProfile,
-    //     });
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
+ 
     this.setState({
       selectedProfile: p,
     });
-    // console.log(p);
+
   };
 
   handleEdit = (p) => {
+
+
+    this.setState({
+      selectedProfile: p,
+    });
+
     let NewProfileName = window.prompt("Enter New Profile Name: ");
     if (NewProfileName === null) {
       // on cancel returns null & no action is required
@@ -163,8 +151,8 @@ class ViewRobotProfile extends Component {
     });
   };
 
-  setModelisOpen = (check, p) => {
-    this.setState({ showModal: check, selectedProfile: p });
+  setModelisOpen = (check) => {
+    this.setState({ showModal: check});
     this.setState({
       showRoutinesDisabled: true,
       updateRoutineBtnDisabled: true,
@@ -220,7 +208,7 @@ class ViewRobotProfile extends Component {
   handleUpdateRoutine = (p) => {
     // if (this.state.selectedRoutine === "") console.log("TRUE");
     // console.log(this.state.selectedRoutine);
-
+    // window.alert("Testing: " + this.state.selectedRoutine);
     if (
       this.state.selectedRoutine === "SelectRoutine" ||
       this.state.selectedRoutine === ""
@@ -234,7 +222,7 @@ class ViewRobotProfile extends Component {
           linkedRoutine: this.state.selectedRoutine,
         })
         .then((res) => {
-          console.log(res.data);
+          console.log("Result Returned: " + res.data);
 
           if (res.data.isUpdated === true) {
             // Making Shallow copy of Array
@@ -253,6 +241,7 @@ class ViewRobotProfile extends Component {
           } else {
             console.log("not Updated");
           }
+
         })
         .catch((error) => {
           window.alert("ERROR: " + error);
@@ -378,7 +367,14 @@ class ViewRobotProfile extends Component {
                       <div class="col-md-1">
                         <button
                           class="btn btn-warning"
-                          onClick={() => this.setModelisOpen(true, p)}
+                          onClick={() => {
+                            this.setState({ showModal: true, selectedProfile: p });
+                            this.setState({
+                              showRoutinesDisabled: true,
+                              updateRoutineBtnDisabled: true,
+                              unlinkRoutineBtnDisabled: false,
+                            });
+                          }}
                         >
                           Change Routine
                       </button>
@@ -409,7 +405,7 @@ class ViewRobotProfile extends Component {
           exact
           component={() => (
             <ProfileView
-              // profile={this.state.CompleteProfile}
+              
               selectedProfile={this.state.selectedProfile}
             />
           )}
