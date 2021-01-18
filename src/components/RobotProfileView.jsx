@@ -3,34 +3,18 @@ import axios from "axios";
 
 class ProfileView extends Component {
   state = {
-    // Profile: this.props.profile,
-    // profile: this.props.profile.profileName,
-    // routine: this.props.profile.routineName,
-    // points: this.props.profile.points,
-    p: this.props.selectedProfile,
-    CompleteProfile: "hi",
+
+    CompleteProfile: "",
     pName: "",
     rName: "",
     points: [],
   };
 
-  // constructor(props) {
-  //   super(props);
-  //   Don't call this.setState() here!
-  //   this.state = { counter: 0 };
-  // }
+
 
   componentDidMount() {
-    // this.setState({
-    //   profile: this.props.profile.profileName,
-    //   routine: this.props.profile.routineName,
-    //   points: this.props.profile.points,
-    // });
-    // this.setState({
-    //   selectedProfile: p,
-    // });
 
-    const p = this.state.p;
+    const p = this.props.selectedProfile;
 
     if (p.profile.linkedRoutine !== -1) {
       axios
@@ -45,29 +29,16 @@ class ProfileView extends Component {
             routineName: res.data.routineName,
             points: res.data.points,
           };
-          // this.state = { CompleteProfile: CompleteProfile };
-          // this.state = {
-          //   pName: CompleteProfile.profileName,
-          //   rName: CompleteProfile.routineName,
-          //   points: CompleteProfile.points,
-          // };
+
           this.setState({
             pName: CompleteProfile.profileName,
             rName: CompleteProfile.routineName,
             points: CompleteProfile.points,
           });
-          // this.state = { rName: CompleteProfile.routineName };
-          // this.state = { points: CompleteProfile.points };
-          console.log("Constructure Inside 1: " + this.state.pName);
-          console.log("Constructure Inside 2: " + this.state.rName);
-          console.log("Constructure Inside 3: " + this.state.points);
 
-          // this.setState({
-          //   CompleteProfile: CompleteProfile,
-          // });
         })
         .catch((error) => {
-          console.log(error);
+          console.log("ERROR: "+error);
         });
     } else {
       let CompleteProfile = {
@@ -82,12 +53,12 @@ class ProfileView extends Component {
       });
     }
 
-    console.log("Constructure: " + this.state.CompleteProfile);
   }
 
   render() {
     return (
-      <div
+      <div>
+        <div
         style={{
           padding: "1%",
           background: "black",
@@ -119,9 +90,6 @@ class ProfileView extends Component {
               </tr>
             </thead>
             <tbody>
-              {/* {console.log(
-                "Selected Profile: " + this.state.p.profile.linkedRoutine
-              )} */}
               {console.log("Points Array: ", this.state.points)}
 
               {this.state.points.map((p) => (
@@ -131,16 +99,11 @@ class ProfileView extends Component {
                   <td>{p.z}</td>
                 </tr>
               ))}
-              {/* {this.state.points.map((p) => (
-                <tr>
-                  <td>{p.x}</td>
-                  <td>{p.y}</td>
-                  <td>{p.z}</td>
-                </tr>
-              ))} */}
+
             </tbody>
           </table>
         </div>
+      </div>
       </div>
     );
   }
