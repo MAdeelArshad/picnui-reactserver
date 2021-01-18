@@ -103,9 +103,7 @@ export default class ManageRoutines extends Component {
 
     if (CheckLinking) {
       window.alert(
-        "Cannot delete this Routine as it is already linked with the (" +
-        r.routineName +
-        ") Profile!"
+        "Cannot delete this Routine as it has already been linked to a Profile!"
       );
     } else {
       if (
@@ -123,10 +121,11 @@ export default class ManageRoutines extends Component {
           })
           .then((res) => {
             console.log("Delection Response: " + res.data.isDeleted);
-
+            console.log("Selected Routine Data: " + this.state.selectedRoutine)
             if (res.data.isDeleted === true) {
               let routinesList = [...this.state.routinesList];
-              routinesList.pop(this.state.selectedRoutine);
+              let index = routinesList.indexOf(r);
+              routinesList.splice(index,1)
               this.setState({ routinesList: routinesList });
               window.alert(
                 "The Training Routine has been successfully Deleted!"
