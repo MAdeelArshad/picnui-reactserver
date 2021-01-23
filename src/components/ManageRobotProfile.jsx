@@ -114,7 +114,7 @@ class ViewRobotProfile extends Component {
       window.confirm(
         "Do you want to delete this robot profile: " +
         p.profile.name +
-        "? \n Note: that the routine lined to this profile will be unlinked but not deleted!"
+        "? \n Note: that the routine linked to this profile will be unlinked but not deleted!"
       )
     ) {
       console.log("Yes Delete");
@@ -127,7 +127,8 @@ class ViewRobotProfile extends Component {
 
           if (res.data.isDeleted === true) {
             let Profiles = [...this.state.Profiles];
-            Profiles.pop(this.state.selectedProfile);
+            let index = Profiles.indexOf(p);
+            Profiles.splice(index,1);
             this.setState({ Profiles: Profiles });
             window.alert(
               "The Selected Robot Profile has been Successfully Deleted!"
